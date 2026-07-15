@@ -1,0 +1,291 @@
+/* ——— Sanctum palette ———
+   stone      #171210  charred umber, garbhagriha dark
+   stone-2    #241C16  raised surface
+   lamp       #D9922E  oil-lamp gold
+   kumkum     #B8432A  vermilion, used once
+   cotton     #EDE3D2  unbleached-cotton text
+   ash        #9A8B79  vibhuti ash, muted text            */
+
+:root {
+  --stone: #171210;
+  --stone-2: #241c16;
+  --lamp: #d9922e;
+  --kumkum: #b8432a;
+  --cotton: #ede3d2;
+  --ash: #9a8b79;
+  --hairline: rgba(217, 146, 46, 0.25);
+  --display: "Marcellus", "Georgia", serif;
+  --body: "Karla", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: radial-gradient(
+      120% 90% at 50% 30%,
+      #221a13 0%,
+      var(--stone) 62%,
+      #100c0a 100%
+    )
+    var(--stone);
+  color: var(--cotton);
+  font-family: var(--body);
+  line-height: 1.5;
+  min-height: 100svh;
+}
+
+.page {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1.25rem 2rem;
+}
+
+/* ——— masthead ——— */
+
+.masthead {
+  width: 100%;
+  max-width: 60rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.masthead-mark {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--lamp);
+}
+
+.masthead-note {
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--ash);
+  text-align: right;
+}
+
+/* ——— the darshan ——— */
+
+.darshan {
+  flex: 1;
+  width: 100%;
+  max-width: 44rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: clamp(1.25rem, 4vh, 3rem);
+  animation: reveal 0.6s ease both;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The doorway: every photo is seen through a sanctum arch. */
+.arch {
+  position: relative;
+  width: min(34rem, 100%);
+}
+
+.arch::before {
+  content: "";
+  position: absolute;
+  inset: -12% -18% -6%;
+  background: radial-gradient(
+    55% 55% at 50% 42%,
+    rgba(217, 146, 46, 0.16),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.arch-photo {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: min(58vh, 30rem);
+  object-fit: cover;
+  border-radius: 50% 50% 10px 10px / 26% 26% 10px 10px;
+  border: 1px solid var(--hairline);
+  box-shadow:
+    0 0 0 6px var(--stone-2),
+    0 0 0 7px rgba(217, 146, 46, 0.18),
+    0 30px 60px -20px rgba(0, 0, 0, 0.8);
+  background: var(--stone-2);
+}
+
+/* ——— inscription ——— */
+
+.temple-name {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.7rem, 4.6vw, 2.7rem);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  margin-top: 2rem;
+  text-wrap: balance;
+}
+
+.temple-subline {
+  margin-top: 0.5rem;
+  color: var(--ash);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+}
+
+/* ——— plaque ——— */
+
+.plaque {
+  margin-top: 1.6rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem 2.4rem;
+  max-width: 36rem;
+}
+
+.plaque-item dt {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--kumkum);
+}
+
+.plaque-item dd {
+  margin-top: 0.15rem;
+  font-size: 0.95rem;
+}
+
+/* ——— links & button ——— */
+
+.links {
+  margin-top: 1.4rem;
+  display: flex;
+  gap: 1.8rem;
+}
+
+.links a {
+  color: var(--cotton);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-decoration: underline;
+  text-decoration-color: var(--hairline);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.2s;
+}
+
+.links a:hover {
+  text-decoration-color: var(--lamp);
+}
+
+.another {
+  margin-top: 2.2rem;
+  font-family: var(--body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lamp);
+  background: transparent;
+  border: 1px solid var(--lamp);
+  border-radius: 999px;
+  padding: 0.85rem 2.2rem;
+  cursor: pointer;
+  transition:
+    background 0.25s,
+    color 0.25s,
+    box-shadow 0.25s;
+}
+
+.another:hover:not(:disabled) {
+  background: var(--lamp);
+  color: var(--stone);
+  box-shadow: 0 0 32px rgba(217, 146, 46, 0.35);
+}
+
+.another:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--lamp);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.another:focus-visible {
+  border-radius: 999px;
+}
+
+/* ——— colophon ——— */
+
+.colophon {
+  margin-top: 2.5rem;
+  max-width: 40rem;
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--ash);
+}
+
+.colophon a {
+  color: inherit;
+}
+
+/* ——— loading / error veil ——— */
+
+.veil {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+}
+
+.veil-text {
+  font-family: var(--display);
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+  color: var(--ash);
+  text-align: center;
+}
+
+/* ——— small screens & motion ——— */
+
+@media (max-width: 480px) {
+  .arch-photo {
+    height: 46vh;
+  }
+  .masthead-note {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .darshan {
+    animation: none;
+  }
+}
