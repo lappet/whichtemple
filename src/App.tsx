@@ -94,7 +94,7 @@ export default function App() {
   return (
     <div className="page">
       <header className="masthead">
-        <span className="masthead-mark">Which Temple</span>
+        <span className="masthead-mark">Which Temple?</span>
         <span className="masthead-note">
           {temples.length.toLocaleString("en-IN")} photographed temples of
           India
