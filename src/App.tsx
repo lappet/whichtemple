@@ -8,6 +8,9 @@ import {
 
 type Status = "loading" | "ready" | "error";
 
+// Each temple is addressable at /<qid>, e.g. /Q3523924.
+const qidFromUrl = () => location.pathname.match(/^\/(Q\d+)$/)?.[1];
+
 export default function App() {
   const [temples, setTemples] = useState<Temple[]>([]);
   const [status, setStatus] = useState<Status>("loading");
@@ -21,7 +24,10 @@ export default function App() {
       .then((data) => {
         if (cancelled) return;
         setTemples(data);
-        setIndex(randomIndex(data.length));
+        const fromUrl = data.findIndex((t) => t.qid === qidFromUrl());
+        const start = fromUrl >= 0 ? fromUrl : randomIndex(data.length);
+        setIndex(start);
+        history.replaceState(null, "", `/${data[start].qid}`);
         setStatus("ready");
       })
       .catch(() => !cancelled && setStatus("error"));
@@ -39,11 +45,29 @@ export default function App() {
     const swap = () => {
       setIndex(next);
       setChanging(false);
+      history.pushState(null, "", `/${temples[next].qid}`);
     };
     img.onload = swap;
     img.onerror = swap;
     img.src = temples[next].image;
   }, [temples, index, changing]);
+
+  // Back/forward navigate through previously seen temples.
+  useEffect(() => {
+    const onPop = () => {
+      const i = temples.findIndex((t) => t.qid === qidFromUrl());
+      if (i >= 0) setIndex(i);
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, [temples]);
+
+  useEffect(() => {
+    const current = temples[index];
+    if (status === "ready" && current) {
+      document.title = `${current.name} — Which Temple?`;
+    }
+  }, [status, temples, index]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

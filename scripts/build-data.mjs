@@ -83,8 +83,13 @@ function mergeRecords(base, override) {
 const upscale = (url) => url.replace(/([?&]width=)\d+/, "$11400");
 
 // The temple-class query net occasionally catches misclassified churches
-// (e.g. "Chapel of St. Jeronimus" via a Wikidata subclass chain).
-const NOT_A_TEMPLE = /church|jesus|chapel/i;
+// (e.g. "Chapel of St. Jeronimus" via a Wikidata subclass chain) and ashrams.
+const NOT_A_TEMPLE = /church|jesus|chapel|cathedral|ashram/i;
+
+// Entries the NOT_A_TEMPLE regex would wrongly drop.
+const KEEP = new Set([
+  "Q4805910", // Ashram Sree Krishna Swamy Temple — a temple despite the name
+]);
 
 // Entries confirmed by hand to not be temples; Wikidata classifies them as
 // temples via subclass chains or PMC heritage-grade tagging.
@@ -99,15 +104,14 @@ const BLOCKLIST = new Set([
   "Q27074014", // Lakhpat Gurdwara Sahib — Sikh gurdwara, not a temple
   "Q6733002", // Mahamaham tank, Kumbakonam — temple tank, not a temple
   "Q20581098", // Pambummekkatu Mana — family house known for serpent worship
-  "Q104845865", // Valmiki Ashram — ashram
-  "Q126163316", // Guru Brahmanand Ashram, Kaimla — ashram
 ]);
 
 function toTemple(rec) {
   let name = clean(rec.name_en);
   const image = clean(rec.best_image_url) ?? clean(rec.wiki_image_url);
   if (!name || !image) return null;
-  if (NOT_A_TEMPLE.test(name) || BLOCKLIST.has(rec.qid)) return null;
+  if (NOT_A_TEMPLE.test(name) && !KEEP.has(rec.qid)) return null;
+  if (BLOCKLIST.has(rec.qid)) return null;
   // A few source names start lowercase (e.g. "athi Sokkanathar Temple").
   name = name[0].toUpperCase() + name.slice(1);
   const lat = Number(rec.lat);
@@ -132,25 +136,29 @@ function toTemple(rec) {
   };
 }
 
-const hindu = readRecords("hindu_temples.csv");
-const asi = readRecords("asi_monuments.csv");
+// Later files win field-by-field on duplicate qids.
+const SOURCES = ["hindu_temples.csv", "odisha_temples.csv", "asi_monuments.csv"];
 
-const merged = new Map(hindu);
-let overlaps = 0;
-for (const [qid, rec] of asi) {
-  if (merged.has(qid)) {
-    merged.set(qid, mergeRecords(merged.get(qid), rec));
-    overlaps++;
-  } else {
-    merged.set(qid, rec);
+const merged = new Map();
+const stats = [];
+for (const file of SOURCES) {
+  const records = readRecords(file);
+  let overlaps = 0;
+  for (const [qid, rec] of records) {
+    if (merged.has(qid)) {
+      merged.set(qid, mergeRecords(merged.get(qid), rec));
+      overlaps++;
+    } else {
+      merged.set(qid, rec);
+    }
   }
+  stats.push(`${file}: ${records.size} rows (${overlaps} overlapping)`);
 }
 
 const temples = [...merged.values()].map(toTemple).filter(Boolean);
 
 fs.writeFileSync(outPath, JSON.stringify(temples));
+console.log(stats.join("\n"));
 console.log(
-  `Merged ${hindu.size} hindu_temples + ${asi.size} asi_monuments ` +
-    `(${overlaps} overlapping qids) -> ${temples.length} temples with photos ` +
-    `in ${path.relative(root, outPath)}`
+  `-> ${temples.length} temples with photos in ${path.relative(root, outPath)}`
 );
