@@ -10,6 +10,7 @@ export type Temple = {
   heritage: string | null;
   commissionedBy: string | null;
   foundedBy: string | null;
+  asiId: string | null;
   image: string;
   imageAuthor: string | null;
   imageLicense: string | null;
