@@ -127,9 +127,11 @@ body {
 .arch-photo {
   position: relative;
   display: block;
-  width: 100%;
-  height: min(58vh, 30rem);
-  object-fit: cover;
+  margin: 0 auto;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  max-height: min(58vh, 30rem);
   border-radius: 50% 50% 10px 10px / 26% 26% 10px 10px;
   border: 1px solid var(--hairline);
   box-shadow:
@@ -303,7 +305,7 @@ button:focus-visible {
 
 @media (max-width: 480px) {
   .arch-photo {
-    height: 46vh;
+    max-height: 46vh;
   }
   .masthead-note {
     display: none;
