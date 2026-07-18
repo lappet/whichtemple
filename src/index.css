@@ -200,6 +200,62 @@ body {
   text-decoration-color: var(--lamp);
 }
 
+.share {
+  margin-top: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 1.3rem;
+}
+
+.share-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--cotton);
+  text-decoration: none;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  padding: 0.55rem 1.15rem;
+  transition:
+    border-color 0.25s,
+    color 0.25s,
+    box-shadow 0.25s;
+}
+
+.share-wa svg {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+}
+
+.share-wa:hover {
+  border-color: #25d366;
+  color: #fff;
+  box-shadow: 0 0 24px rgba(37, 211, 102, 0.2);
+}
+
+.share-copy {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--body);
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  color: var(--ash);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--hairline);
+  text-underline-offset: 4px;
+  transition: color 0.2s;
+}
+
+.share-copy:hover {
+  color: var(--cotton);
+}
+
 .another {
   margin-top: 2.2rem;
   font-family: var(--body);
