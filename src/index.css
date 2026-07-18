@@ -66,6 +66,12 @@ body {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--lamp);
+  text-decoration: none;
+  transition: text-shadow 0.25s;
+}
+
+.masthead-mark:hover {
+  text-shadow: 0 0 18px rgba(217, 146, 46, 0.6);
 }
 
 .masthead-note {
@@ -200,60 +206,24 @@ body {
   text-decoration-color: var(--lamp);
 }
 
-.share {
-  margin-top: 1.3rem;
-  display: flex;
-  align-items: center;
-  gap: 1.3rem;
-}
-
-.share-wa {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--cotton);
-  text-decoration: none;
-  border: 1px solid var(--hairline);
-  border-radius: 999px;
-  padding: 0.55rem 1.15rem;
-  transition:
-    border-color 0.25s,
-    color 0.25s,
-    box-shadow 0.25s;
-}
-
-.share-wa svg {
-  width: 1rem;
-  height: 1rem;
-  fill: currentColor;
-}
-
-.share-wa:hover {
-  border-color: #25d366;
-  color: #fff;
-  box-shadow: 0 0 24px rgba(37, 211, 102, 0.2);
-}
-
-.share-copy {
+/* Share sits in the links row, styled to match its anchors. */
+.share-link {
   background: none;
   border: none;
   padding: 0;
   font-family: var(--body);
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   letter-spacing: 0.05em;
-  color: var(--ash);
+  color: var(--cotton);
   cursor: pointer;
   text-decoration: underline;
   text-decoration-color: var(--hairline);
   text-underline-offset: 4px;
-  transition: color 0.2s;
+  transition: text-decoration-color 0.2s;
 }
 
-.share-copy:hover {
-  color: var(--cotton);
+.share-link:hover {
+  text-decoration-color: var(--lamp);
 }
 
 .another {

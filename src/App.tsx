@@ -124,7 +124,9 @@ export default function App() {
   return (
     <div className="page">
       <header className="masthead">
-        <span className="masthead-mark">Which Temple?</span>
+        <a className="masthead-mark" href="/">
+          Which Temple?
+        </a>
         <span className="masthead-note">
           {temples.length.toLocaleString("en-IN")} photographed temples of
           India
@@ -170,24 +172,8 @@ export default function App() {
               View on map
             </a>
           )}
-        </p>
-
-        <div className="share">
-          <a
-            className="share-wa"
-            href={`https://wa.me/?text=${encodeURIComponent(
-              `${t.name}${t.state ? `, ${t.state}` : ""}\n${location.href}`
-            )}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 2a9.5 9.5 0 0 0-8.2 14.3L2.5 21.5l5.4-1.4A9.5 9.5 0 1 0 12 2Zm0 2a7.5 7.5 0 1 1-3.9 13.9l-.4-.2-3 .8.8-2.9-.3-.4A7.5 7.5 0 0 1 12 4Zm-2.7 3.7c-.2 0-.5 0-.7.3-.9 1-.8 2.4 0 3.7 1 1.5 2.4 2.8 4.1 3.5 1.4.6 2.5.6 3.3.1.4-.2.8-.7.9-1.2.1-.5 0-.9-.2-1l-1.7-.8c-.2-.1-.5-.1-.7.2l-.5.7c-.1.2-.3.2-.5.1a6 6 0 0 1-2.8-2.5c-.1-.2-.1-.4.1-.5l.6-.6c.2-.2.2-.5.1-.7l-.8-1.7c-.1-.3-.4-.4-.6-.4Z" />
-            </svg>
-            Share on WhatsApp
-          </a>
           <button
-            className="share-copy"
+            className="share-link"
             onClick={() => {
               const url = location.href;
               if (canNativeShare) {
@@ -199,7 +185,7 @@ export default function App() {
           >
             {copied ? "Link copied" : canNativeShare ? "Share…" : "Copy link"}
           </button>
-        </div>
+        </p>
 
         <button
           className="another"
