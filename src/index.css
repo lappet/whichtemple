@@ -284,6 +284,105 @@ button:focus-visible {
   color: inherit;
 }
 
+/* ——— map view ——— */
+
+.masthead-side {
+  display: flex;
+  align-items: baseline;
+  gap: 1.4rem;
+}
+
+.masthead-map {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cotton);
+  text-decoration: underline;
+  text-decoration-color: var(--hairline);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.2s;
+}
+
+.masthead-map:hover {
+  text-decoration-color: var(--lamp);
+}
+
+.map-page {
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1.25rem 1.25rem;
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.map-canvas {
+  flex: 1;
+  margin-top: 1.25rem;
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  background: var(--stone-2);
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--stone-2);
+  color: var(--cotton);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.leaflet-popup-content {
+  margin: 10px;
+}
+
+.map-pop {
+  display: block;
+  width: 220px;
+  color: var(--cotton);
+  font-family: var(--body);
+  font-size: 0.9rem;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.map-pop img {
+  display: block;
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  background: var(--stone);
+}
+
+.map-pop span {
+  font-family: var(--display);
+  font-size: 1rem;
+}
+
+.map-pop:hover span {
+  color: var(--lamp);
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: var(--ash);
+}
+
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large {
+  background-color: rgba(217, 146, 46, 0.25);
+}
+
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  background-color: rgba(217, 146, 46, 0.75);
+  color: var(--stone);
+  font-family: var(--body);
+  font-weight: 700;
+}
+
 /* ——— loading / error veil ——— */
 
 .veil {

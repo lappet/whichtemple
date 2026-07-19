@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import MapPage from "./MapPage";
 import {
   formatFounded,
   loadTemples,
@@ -8,8 +9,9 @@ import {
 
 type Status = "loading" | "ready" | "error";
 
-// Each temple is addressable at /<qid>, e.g. /Q3523924.
+// Each temple is addressable at /<qid>, e.g. /Q3523924; /map is the map view.
 const qidFromUrl = () => location.pathname.match(/^\/(Q\d+)$/)?.[1];
+const isMapRoute = location.pathname === "/map";
 
 // Desktop browsers mostly lack the Web Share API; fall back to copying.
 const canNativeShare = typeof navigator.share === "function";
@@ -30,10 +32,12 @@ export default function App() {
       .then((data) => {
         if (cancelled) return;
         setTemples(data);
-        const fromUrl = data.findIndex((t) => t.qid === qidFromUrl());
-        const start = fromUrl >= 0 ? fromUrl : randomIndex(data.length);
-        setIndex(start);
-        history.replaceState(null, "", `/${data[start].qid}`);
+        if (!isMapRoute) {
+          const fromUrl = data.findIndex((t) => t.qid === qidFromUrl());
+          const start = fromUrl >= 0 ? fromUrl : randomIndex(data.length);
+          setIndex(start);
+          history.replaceState(null, "", `/${data[start].qid}`);
+        }
         setStatus("ready");
       })
       .catch(() => !cancelled && setStatus("error"));
@@ -69,6 +73,10 @@ export default function App() {
   }, [temples]);
 
   useEffect(() => {
+    if (isMapRoute) {
+      document.title = "Map — Which Temple?";
+      return;
+    }
     const current = temples[index];
     if (status === "ready" && current) {
       document.title = `${current.name} — Which Temple?`;
@@ -77,6 +85,7 @@ export default function App() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (isMapRoute) return;
       if (e.key !== " " && e.key !== "ArrowRight") return;
       if (e.target instanceof HTMLElement && e.target.closest("a, button"))
         return;
@@ -108,6 +117,9 @@ export default function App() {
       </div>
     );
   }
+  if (isMapRoute) {
+    return <MapPage temples={temples} />;
+  }
 
   const t = temples[index];
   const founded = formatFounded(t.inception);
@@ -127,10 +139,15 @@ export default function App() {
         <a className="masthead-mark" href="/">
           Which Temple?
         </a>
-        <span className="masthead-note">
-          {temples.length.toLocaleString("en-IN")} photographed temples of
-          India
-        </span>
+        <div className="masthead-side">
+          <span className="masthead-note">
+            {temples.length.toLocaleString("en-IN")} photographed temples of
+            India
+          </span>
+          <a className="masthead-map" href="/map">
+            Map
+          </a>
+        </div>
       </header>
 
       <main className="darshan" key={t.qid}>

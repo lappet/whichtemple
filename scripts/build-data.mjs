@@ -91,6 +91,14 @@ const KEEP = new Set([
   "Q4805910", // Ashram Sree Krishna Swamy Temple — a temple despite the name
 ]);
 
+// Wikidata coordinate errors, verified by hand (both plotted in Nepal).
+const COORD_OVERRIDES = new Map([
+  // Pananchery Mudikkode Shiva Temple — from its en.wikipedia article
+  ["Q13113186", { lat: 10.550949, lon: 76.307479 }],
+  // Vishwanath Temple (S-MP-311) — approximate: Umaria town, its P131 district
+  ["Q98928422", { lat: 23.5268, lon: 80.8381 }],
+]);
+
 // Entries confirmed by hand to not be temples; Wikidata classifies them as
 // temples via subclass chains or PMC heritage-grade tagging.
 const BLOCKLIST = new Set([
@@ -114,8 +122,9 @@ function toTemple(rec) {
   if (BLOCKLIST.has(rec.qid)) return null;
   // A few source names start lowercase (e.g. "athi Sokkanathar Temple").
   name = name[0].toUpperCase() + name.slice(1);
-  const lat = Number(rec.lat);
-  const lon = Number(rec.lon);
+  const override = COORD_OVERRIDES.get(rec.qid);
+  const lat = override ? override.lat : Number(rec.lat);
+  const lon = override ? override.lon : Number(rec.lon);
   return {
     qid: rec.qid,
     name,
