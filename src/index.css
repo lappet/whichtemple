@@ -288,15 +288,24 @@ button:focus-visible {
 
 .masthead-side {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
+  justify-content: flex-end;
   gap: 1.4rem;
 }
 
+/* Doubles as a plain <a> (Map) and a view-toggle <button> (Favorites,
+   Rankings, ← Rate), so it carries a button reset too. */
 .masthead-map {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
   font-size: 0.85rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--cotton);
+  cursor: pointer;
   text-decoration: underline;
   text-decoration-color: var(--hairline);
   text-underline-offset: 4px;
@@ -383,6 +392,201 @@ button:focus-visible {
   font-weight: 700;
 }
 
+/* ——— rate ——— */
+
+.rate-page {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1.25rem 2rem;
+}
+
+.rate-heading {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 3.6vw, 1.9rem);
+  margin-top: clamp(1.5rem, 5vh, 3.5rem);
+  text-align: center;
+}
+
+.rate-pair {
+  position: relative;
+  width: 100%;
+  max-width: 44rem;
+  margin-top: 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem;
+  animation: reveal 0.5s ease both;
+}
+
+.rate-card {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+
+.rate-photo {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 50% 50% 10px 10px / 22% 22% 10px 10px;
+  border: 1px solid var(--hairline);
+  box-shadow:
+    0 0 0 5px var(--stone-2),
+    0 0 0 6px rgba(217, 146, 46, 0.18),
+    0 20px 40px -18px rgba(0, 0, 0, 0.8);
+  background: var(--stone-2);
+  transition:
+    transform 0.35s ease,
+    opacity 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.rate-card:hover:not(:disabled) .rate-photo {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 5px var(--stone-2),
+    0 0 0 6px rgba(217, 146, 46, 0.3),
+    0 24px 46px -18px rgba(0, 0, 0, 0.85);
+}
+
+.rate-card--won .rate-photo {
+  transform: scale(1.035);
+  box-shadow:
+    0 0 0 5px var(--stone-2),
+    0 0 0 6px rgba(217, 146, 46, 0.55),
+    0 0 40px rgba(217, 146, 46, 0.4);
+}
+
+.rate-card--lost .rate-photo {
+  opacity: 0.32;
+  filter: saturate(0.4);
+  transform: scale(0.97);
+}
+
+.rate-name {
+  margin-top: 0.75rem;
+  font-family: var(--display);
+  font-size: 1rem;
+  line-height: 1.3;
+  text-align: center;
+  transition: color 0.35s ease;
+}
+
+.rate-card--lost .rate-name {
+  color: var(--ash);
+}
+
+.rate-or {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2.2rem;
+  height: 2.2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--hairline);
+  background: var(--stone-2);
+  color: var(--ash);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.rate-favorites {
+  width: 100%;
+  max-width: 30rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rate-empty {
+  margin-top: 1.5rem;
+  max-width: 26rem;
+  text-align: center;
+  color: var(--ash);
+  font-size: 0.95rem;
+}
+
+.favorites-list {
+  list-style: none;
+  width: 100%;
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.favorites-item {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  background: var(--stone-2);
+  color: var(--cotton);
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+
+.favorites-item:hover {
+  border-color: var(--lamp);
+}
+
+.favorites-item img {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--stone);
+}
+
+.favorites-name {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+.favorites-name em {
+  flex-shrink: 0;
+  font-style: normal;
+  font-family: var(--body);
+  font-size: 0.78rem;
+  color: var(--ash);
+}
+
+.favorites-rank {
+  flex-shrink: 0;
+  width: 2rem;
+  font-family: var(--body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--kumkum);
+}
+
 /* ——— loading / error veil ——— */
 
 .veil {
@@ -408,6 +612,20 @@ button:focus-visible {
   }
   .masthead-note {
     display: none;
+  }
+  .rate-pair {
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    max-width: 20rem;
+  }
+  .rate-card {
+    width: 100%;
+    max-width: 16rem;
+  }
+  .rate-or {
+    top: auto;
+    bottom: -1.9rem;
   }
 }
 
