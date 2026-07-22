@@ -1,12 +1,10 @@
 // GET /api/rank?qid=Q123 -> this temple's global rank and rating.
 import { redis, RATINGS_KEY, VOTES_KEY, DEFAULT_RATING, isValidQid } from "./_lib/redis.js";
 
-export default async function handler(request: Request): Promise<Response> {
-  if (request.method !== "GET") {
-    return new Response("Method not allowed", { status: 405 });
-  }
-
-  const qid = new URL(request.url).searchParams.get("qid");
+// Named per-method export — see the comment in api/vote.ts for why.
+export async function GET(request: Request): Promise<Response> {
+  // request.url on this runtime is relative, not absolute — see leaderboard.ts.
+  const qid = new URL(request.url, "http://localhost").searchParams.get("qid");
   if (!isValidQid(qid)) {
     return new Response(JSON.stringify({ error: "invalid_qid" }), {
       status: 400,

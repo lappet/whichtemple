@@ -4,11 +4,11 @@
 // already updated instantly, so a slow or failed call here never blocks the UI.
 import { applyVote, isValidQid } from "./_lib/redis.js";
 
-export default async function handler(request: Request): Promise<Response> {
-  if (request.method !== "POST") {
-    return new Response("Method not allowed", { status: 405 });
-  }
-
+// Named per-method export — Vercel's documented signature for plain
+// (non-Next.js) /api functions. A bare `export default function handler`
+// falls through to a legacy (req, res) detection path: the Response we
+// return gets silently discarded and the request hangs until it times out.
+export async function POST(request: Request): Promise<Response> {
   let body: unknown;
   try {
     body = await request.json();

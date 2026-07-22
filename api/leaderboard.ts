@@ -6,12 +6,11 @@ import { redis, RATINGS_KEY } from "./_lib/redis.js";
 
 const MAX_LIMIT = 100;
 
-export default async function handler(request: Request): Promise<Response> {
-  if (request.method !== "GET") {
-    return new Response("Method not allowed", { status: 405 });
-  }
-
-  const url = new URL(request.url);
+// Named per-method export — see the comment in api/vote.ts for why.
+export async function GET(request: Request): Promise<Response> {
+  // request.url on this runtime is relative ("/api/leaderboard?limit=5"),
+  // not absolute, so URL needs an explicit (otherwise-unused) base.
+  const url = new URL(request.url, "http://localhost");
   const requested = Number(url.searchParams.get("limit") ?? 10);
   const limit = Math.min(
     MAX_LIMIT,
