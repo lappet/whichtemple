@@ -2,7 +2,7 @@
 // visitor's votes. Returns bare qids + ratings; the client already has
 // temples.json loaded, so names/photos are joined in locally rather than
 // duplicating temple metadata into Redis.
-import { redis, RATINGS_KEY } from "./_lib/redis";
+import { redis, RATINGS_KEY } from "./_lib/redis.js";
 
 const MAX_LIMIT = 100;
 

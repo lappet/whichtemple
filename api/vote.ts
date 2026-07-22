@@ -2,7 +2,7 @@
 // Records a Hot-or-Not-style pairwise vote into the shared Elo leaderboard.
 // This is a background sync — the browser's own local rating (src/ratings.ts)
 // already updated instantly, so a slow or failed call here never blocks the UI.
-import { applyVote, isValidQid } from "./_lib/redis";
+import { applyVote, isValidQid } from "./_lib/redis.js";
 
 export default async function handler(request: Request): Promise<Response> {
   if (request.method !== "POST") {

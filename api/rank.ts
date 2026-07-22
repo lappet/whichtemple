@@ -1,5 +1,5 @@
 // GET /api/rank?qid=Q123 -> this temple's global rank and rating.
-import { redis, RATINGS_KEY, VOTES_KEY, DEFAULT_RATING, isValidQid } from "./_lib/redis";
+import { redis, RATINGS_KEY, VOTES_KEY, DEFAULT_RATING, isValidQid } from "./_lib/redis.js";
 
 export default async function handler(request: Request): Promise<Response> {
   if (request.method !== "GET") {
