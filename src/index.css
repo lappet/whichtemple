@@ -383,6 +383,62 @@ button:focus-visible {
   font-weight: 700;
 }
 
+/* ——— quiz ——— */
+
+.quiz-options {
+  margin-top: 1.8rem;
+  width: 100%;
+  max-width: 34rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+}
+
+.quiz-option {
+  padding: 0.85rem 1.1rem;
+  font-family: var(--body);
+  font-size: 0.95rem;
+  color: var(--cotton);
+  background: var(--stone-2);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    opacity 0.2s;
+}
+
+.quiz-option:hover:not(:disabled) {
+  border-color: var(--lamp);
+}
+
+.quiz-option:disabled {
+  cursor: default;
+}
+
+.quiz-option:disabled:not(.quiz-option--correct):not(.quiz-option--wrong) {
+  opacity: 0.5;
+}
+
+.quiz-option--correct {
+  border-color: var(--lamp);
+  background: rgba(217, 146, 46, 0.16);
+  color: var(--lamp);
+}
+
+.quiz-option--wrong {
+  border-color: var(--kumkum);
+  background: rgba(184, 67, 42, 0.14);
+  color: var(--kumkum);
+}
+
+@media (max-width: 480px) {
+  .quiz-options {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ——— loading / error veil ——— */
 
 .veil {

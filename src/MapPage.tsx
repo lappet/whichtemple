@@ -73,10 +73,15 @@ export default function MapPage({ temples }: { temples: Temple[] }) {
         <a className="masthead-mark" href="/">
           Which Temple?
         </a>
-        <span className="masthead-note">
-          {temples.length.toLocaleString("en-IN")} temples — zoom in and tap a
-          marker
-        </span>
+        <div className="masthead-side">
+          <span className="masthead-note">
+            {temples.length.toLocaleString("en-IN")} temples — zoom in and
+            tap a marker
+          </span>
+          <a className="masthead-map" href="/quiz">
+            Quiz
+          </a>
+        </div>
       </header>
       <div className="map-canvas" ref={canvas} />
     </div>

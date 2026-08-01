@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import MapPage from "./MapPage";
+import QuizPage from "./QuizPage";
 import {
   formatFounded,
   loadTemples,
@@ -9,9 +10,12 @@ import {
 
 type Status = "loading" | "ready" | "error";
 
-// Each temple is addressable at /<qid>, e.g. /Q3523924; /map is the map view.
+// Each temple is addressable at /<qid>, e.g. /Q3523924; /map and /quiz are
+// the other views.
 const qidFromUrl = () => location.pathname.match(/^\/(Q\d+)$/)?.[1];
 const isMapRoute = location.pathname === "/map";
+const isQuizRoute = location.pathname === "/quiz";
+const isOtherRoute = isMapRoute || isQuizRoute;
 
 // Desktop browsers mostly lack the Web Share API; fall back to copying.
 const canNativeShare = typeof navigator.share === "function";
@@ -32,7 +36,7 @@ export default function App() {
       .then((data) => {
         if (cancelled) return;
         setTemples(data);
-        if (!isMapRoute) {
+        if (!isOtherRoute) {
           const fromUrl = data.findIndex((t) => t.qid === qidFromUrl());
           const start = fromUrl >= 0 ? fromUrl : randomIndex(data.length);
           setIndex(start);
@@ -77,6 +81,10 @@ export default function App() {
       document.title = "Map — Which Temple?";
       return;
     }
+    if (isQuizRoute) {
+      document.title = "Quiz — Which Temple?";
+      return;
+    }
     const current = temples[index];
     if (status === "ready" && current) {
       document.title = `${current.name} — Which Temple?`;
@@ -85,7 +93,7 @@ export default function App() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (isMapRoute) return;
+      if (isOtherRoute) return;
       if (e.key !== " " && e.key !== "ArrowRight") return;
       if (e.target instanceof HTMLElement && e.target.closest("a, button"))
         return;
@@ -120,6 +128,9 @@ export default function App() {
   if (isMapRoute) {
     return <MapPage temples={temples} />;
   }
+  if (isQuizRoute) {
+    return <QuizPage temples={temples} />;
+  }
 
   const t = temples[index];
   const founded = formatFounded(t.inception);
@@ -146,6 +157,9 @@ export default function App() {
           </span>
           <a className="masthead-map" href="/map">
             Map
+          </a>
+          <a className="masthead-map" href="/quiz">
+            Quiz
           </a>
         </div>
       </header>
